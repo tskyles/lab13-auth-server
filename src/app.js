@@ -13,10 +13,16 @@ const authRouter = require( './auth/router.js' );
 // Prepare the express app
 const app = express();
 
+// Swagger
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('../docs/config/swagger.json');
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 // App Level MW
 app.use(cors());
 app.use(morgan('dev'));
 
+app.use(express.static('./public'));
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
