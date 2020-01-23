@@ -1,7 +1,9 @@
 'use strict';
 
 const superagent = require('superagent');
-const users = require('../model/userModel');
+const users = require('../users-model');
+
+let user = new users();
 
 /*
   Resources
@@ -80,12 +82,12 @@ async function getRemoteUserInfo(token) {
  */
 async function getUser(remoteUser) {
   let userRecord = {
-    username: remoteUser.login,
-    password: 'oauthpassword',
+    username: remoteUser.name,
+    password: 'test',
   };
 
-  let user = await users.post(userRecord);
-  let token = users.generateToken(user);
+  let user = await users.create(userRecord);
+  let token = user.generateToken(user);
 
   return [user, token];
 

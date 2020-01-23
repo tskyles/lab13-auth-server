@@ -5,7 +5,7 @@ const authRouter = express.Router();
 
 const User = require('./users-model.js');
 const auth = require('./middleware.js');
-const oauth = require('./oauth/google.js');
+const oauth = require('./oauth/github.js');
 const bearerAuth = require('./bearer-auth-middleware');
 
 authRouter.post('/signup', (req, res, next) => {
@@ -29,12 +29,8 @@ authRouter.post('/user', bearerAuth, (req, res) => {
   res.json(req.user);
 });
 
-authRouter.get('/oauth', (req,res,next) => {
-  oauth.authorize(req)
-    .then( token => {
-      res.status(200).send(token);
-    })
-    .catch(next);
+authRouter.get('/oauth', oauth, (req, res) => {
+  res.send(req.token);
 });
 
 module.exports = authRouter;
