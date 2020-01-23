@@ -46,7 +46,7 @@ describe('Auth Middleware', () => {
           expect(next).toHaveBeenCalledWith(errorObject);
         });
 
-    }); // it()
+    }); 
 
     it('logs in an admin user with the right credentials', () => {
 
@@ -63,7 +63,7 @@ describe('Auth Middleware', () => {
           expect(next).toHaveBeenCalledWith();
         });
 
-    }); // it()
+    });
 
   });
 

@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "test": "jest --verbose --coverage",
+    "lint": "eslint '**/*.js'",
+    "test-watch": "jest --watchAll --verbose --coverage",
     "start": "node index.js",
-    "watch": "nodemon index.js",
-    "test-watch": "jest --watchAll",
-    "test": "jest"
+    "jsdoc": "jsdoc -c ./docs/config/jsdoc.config.json"
   },
   "jest": {
     "testEnvironment": "node"
@@ -16,6 +17,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@code-fellows/supergoose": "^1.0.1",
     "bcrypt": "^3.0.2",
     "cors": "^2.8.4",
     "debug": "^4.1.0",

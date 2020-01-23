@@ -4,6 +4,15 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+const SECRET = 'yourpasswordisplaintext';
+const persistTokens = new Set();
+
+const roles = {
+  user: ['read'],
+  editor: ['read', 'create', 'update'],
+  admin: ['read', 'create', 'update', 'delete'],
+};
+
 const userSchema = new mongoose.Schema({
   username: {type:String, required:true, unique:true},
   password: {type:String, required:true},
@@ -49,6 +58,30 @@ userSchema.methods.comparePassword = function(password) {
     .then( valid => valid ? this : null);
 };
 
+userSchema.statics.authenticateToken = function(token) {
+  try {
+
+    if(persistTokens.has(token)) {
+      return Promise.reject('Token has been used');
+    }
+
+    let parsedTokenObject = jwt.verify(token, SECRET);
+  
+    persistTokens.add(token);
+    console.log(parsedTokenObject)
+    
+    let query = {_id:parsedTokenObject.id};
+
+    console.log(query)
+
+    return this.findOne(query)
+      .then(user => console.log(user))
+  }
+  catch (error) {
+    return Promise.reject();
+  }
+}
+
 userSchema.methods.generateToken = function() {
 
   let token = {
@@ -56,7 +89,7 @@ userSchema.methods.generateToken = function() {
     role: this.role,
   };
 
-  return jwt.sign(token, process.env.SECRET);
+  return jwt.sign(token, SECRET, { expiresIn: '15m' });
 };
 
 module.exports = mongoose.model('users', userSchema);

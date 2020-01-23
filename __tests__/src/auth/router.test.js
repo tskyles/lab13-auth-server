@@ -1,6 +1,6 @@
 'use strict';
 
-process.env.SECRET='test';
+process.env.SECRET='yourpasswordisplaintext';
 
 const jwt = require('jsonwebtoken');
 
