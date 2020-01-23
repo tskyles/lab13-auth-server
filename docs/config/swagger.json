@@ -1,10 +1,10 @@
 {
   "swagger": "2.0",
-  "OpenAPI": "3.0.1",
+  "OpenAPI": "1.0.1",
   "info": {
-    "title": "Trevor's API",
-    "description": "Categories and Products",
-    "version": "1.0.2"
+    "title": "User Authentication",
+    "description": "User Authentication and Authorization",
+    "version": "1.0.1"
   },
   "servers": [
     {
@@ -12,12 +12,12 @@
     }
   ],
   "paths": {
-    "/categories": {
+    "/users": {
       "get": {
-        "description": "Get all categories",
+        "description": "Get all Users",
         "responses": {
           "200": {
-            "description": "Returned a list of categories",
+            "description": "Returns all users within the database in JSON format",
             "content": {
               "*/*": {
                 "schema": {
@@ -27,89 +27,24 @@
             }
           }
         }
-      },
+      }
+    },
+    "/signup": {
       "post": {
-        "description": "Creates a new category",
+        "description": "Creates a new user and saves to the database",
         "responses": {
           "200": {
-            "description": "Category created successfully"
+            "description": "Receives generated token"
           }
         }
       }
     },
-    "/categories/{id}": {
-      "get": {
-        "description": "Get a specific category",
-        "responses": {
-          "200": {
-            "description": "Successfully retrieved category"
-          }
-        }
-      },
-      "put": {
-        "description": "Update category",
-        "responses": {
-          "200": {
-            "description": "Successfully updated category"
-          }
-        }
-      },
-      "delete": {
-        "description": "Delete category",
-        "responses": {
-          "200": {
-            "description": "Successfully deleted category"
-          }
-        }
-      }
-    },
-    "/products": {
-      "get": {
-        "description": "Get all products",
-        "responses": {
-          "200": {
-            "description": "Returned a list of products",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/getAll"
-                }
-              }
-            }
-          }
-        }
-      },
+    "/signin": {
       "post": {
-        "description": "Create a new product",
+        "description": "Authorizes user by comparing hashed passwords",
         "responses": {
           "200": {
-            "description": "The product has been created successfully"
-          }
-        }
-      }
-    },
-    "/products/{id}": {
-      "get": {
-        "description": "Get a specific item",
-        "responses": {
-          "200": {
-            "description": "Successfully retrieved item"
-          }
-        }
-      },
-      "put": {
-        "description": "Update product",
-        "responses": {
-          "200": {
-            "description": "Successfully updated product"
-          }
-        }
-      },
-      "delete": {
-        "description": "Delete category",
-        "responses": {
-          "200": {
-            "description": "Successfully has deleted object"
+            "description": "Receives generated token"
           }
         }
       }

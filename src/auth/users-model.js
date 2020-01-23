@@ -4,21 +4,21 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const users = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
   username: {type:String, required:true, unique:true},
   password: {type:String, required:true},
   email: {type: String},
   role: {type: String, default:'user', enum: ['admin','editor','user']},
 });
 
-users.pre('save', async function() {
+userSchema.pre('save', async function() {
   if (this.isModified('password'))
   {
     this.password = await bcrypt.hash(this.password, 10);
   }
 });
 
-users.statics.createFromOauth = function(email) {
+userSchema.statics.createFromOauth = function(email) {
 
   if(! email) { return Promise.reject('Validation Error'); }
 
@@ -37,19 +37,19 @@ users.statics.createFromOauth = function(email) {
 
 };
 
-users.statics.authenticateBasic = function(auth) {
+userSchema.statics.authenticateBasic = function(auth) {
   let query = {username:auth.username};
   return this.findOne(query)
     .then( user => user && user.comparePassword(auth.password) )
     .catch(error => {throw error;});
 };
 
-users.methods.comparePassword = function(password) {
+userSchema.methods.comparePassword = function(password) {
   return bcrypt.compare( password, this.password )
     .then( valid => valid ? this : null);
 };
 
-users.methods.generateToken = function() {
+userSchema.methods.generateToken = function() {
 
   let token = {
     id: this._id,
@@ -59,4 +59,4 @@ users.methods.generateToken = function() {
   return jwt.sign(token, process.env.SECRET);
 };
 
-module.exports = mongoose.model('users', users);
+module.exports = mongoose.model('users', userSchema);
