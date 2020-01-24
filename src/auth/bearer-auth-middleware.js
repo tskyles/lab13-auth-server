@@ -7,12 +7,9 @@ module.exports = (req, res, next) => {
 
   let token = req.headers.authorization.split(' ').pop();
 
-  console.log(token)
-
   User
     .authenticateToken(token)
     .then( validUser => {
-      console.log(validUser)
       req.user = validUser;
       next();
     })

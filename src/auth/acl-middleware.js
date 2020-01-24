@@ -1,13 +1,12 @@
 'use strict';
 
-// const users = require('../auth/users-model');
-
 module.exports = (capabilities) => {
    
   return ( req, res, next) => {
     try{
+      console.log(req.user.userRoles);
       if (req.user.capabilities.includes(capabilities)) {
-        console.log('got it')
+        console.log('got it');
         next();
       }
       else {

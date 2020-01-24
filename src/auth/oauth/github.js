@@ -3,8 +3,6 @@
 const superagent = require('superagent');
 const users = require('../users-model');
 
-let user = new users();
-
 /*
   Resources
   https://developer.github.com/apps/building-oauth-apps/

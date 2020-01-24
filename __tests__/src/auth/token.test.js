@@ -7,7 +7,7 @@ describe('JWT Token', () => {
 
   const userObj = {
     username: 'Trevor',
-    password: 'Testing token'
+    password: 'Testing token',
   };
 
   it('Should generate token', () => {

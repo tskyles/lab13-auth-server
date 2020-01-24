@@ -8,12 +8,18 @@ require('../auth/roles-model');
 const SECRET = 'yourpasswordisplaintext';
 const persistTokens = new Set();
 
+const capabilities = {
+  admin: ['create','read','update','delete', 'superuser'],
+  editor: ['create', 'read', 'update'],
+  user: ['read'],
+};
+
 const userSchema = new mongoose.Schema({
   username: {type:String, required:true, unique:true},
   password: {type:String, required:true},
   email: {type: String},
   role: {type: String, default:'user', enum: ['admin','editor','user']},
-}, {toObject: {virtuals: true}, toJSON: {virtuals: true}});
+}, {toObject: {virtuals: true, getters: true}, toJSON: {virtuals: true, getters: true}});
 
 userSchema.virtual('userRoles', {
   ref: 'roles',
@@ -22,6 +28,9 @@ userSchema.virtual('userRoles', {
   justOne: true,
 });
 
+/** 
+ * @description Hashes password before saving to DB
+ */
 userSchema.pre('save', async function(next) {
   if (this.isModified('password'))
   {
@@ -30,15 +39,21 @@ userSchema.pre('save', async function(next) {
   next();
 });
 
+/** 
+ * @description Populates virtual column before query
+ */
 userSchema.pre('find', function() {
   try {
-    console.log('joining')
     this.populate('userRoles');
   } catch (error) {
     console.error(error);
   }
 });
 
+/**
+ * @description Saves OAuth user in database
+ * @returns user
+ */
 userSchema.statics.createFromOauth = function(email) {
 
   if(! email) { return Promise.reject('Validation Error'); }
@@ -58,6 +73,9 @@ userSchema.statics.createFromOauth = function(email) {
 
 };
 
+/**
+ * @description Authenticates user in database and returns
+ */
 userSchema.statics.authenticateBasic = function(auth) {
   let query = {username:auth.username};
   return this.findOne(query)
@@ -65,11 +83,17 @@ userSchema.statics.authenticateBasic = function(auth) {
     .catch(error => {throw error;});
 };
 
+/**
+ * @description Compares hashed password against inputted password
+ */
 userSchema.methods.comparePassword = function(password) {
   return bcrypt.compare( password, this.password )
     .then( valid => valid ? this : null);
 };
 
+/**
+ * @description Verifies token against expiration and single use
+ */
 userSchema.statics.authenticateToken = function(token) {
   try {
 
@@ -83,13 +107,16 @@ userSchema.statics.authenticateToken = function(token) {
     
     let query = {_id:parsedTokenObject.id};
 
-    return this.findOne(query)
+    return this.findOne(query);
   }
   catch (error) {
     return Promise.reject();
   }
-}
+};
 
+/**
+ * @description Generates token 
+ */
 userSchema.methods.generateToken = function() {
 
   let token = {

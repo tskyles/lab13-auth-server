@@ -17,12 +17,10 @@ router.post('/roles', (req, res, next) => {
   Object.keys(capabilities).map(role => {
     let newRecord = new Role({type: role, capabilities: capabilities[role]});
     saved.push(newRecord.save());
-    console.log(saved)
   });
   Promise.all(saved);
-  console.log(saved)
-  res.status(200).send('Roles Created');
-})
+  res.send('Roles Created');
+});
 
 router.get('/public');
 
