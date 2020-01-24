@@ -12,7 +12,6 @@ describe('JWT Token', () => {
 
   it('Should generate token', () => {
     token = new Users().generateToken(userObj);
-
     expect(token).toBeDefined();
   });
 });

@@ -64,22 +64,3 @@ describe('Auth Router', () => {
       });
   });
 });
-
-
-// describe('Additional Routes', () => {
-
-//   let id;
-
-//   it('User has read capabilities', () => {
-//     return mockRequest.post('/signup')
-//       .send(users['admin'])
-//       .then(results => {
-//         console.log(results.text)
-//         var token = jwt.verify(results.text, process.env.SECRET);
-//         id = token.id;
-//       });
-
-//   });
-
-  
-// });

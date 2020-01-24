@@ -42,6 +42,11 @@ userSchema.pre('save', async function(next) {
 userSchema.pre('save', join);
 userSchema.pre('find', join);
 
+/**
+ * @function
+ * @description Populates virtual column
+ * @param {*} next 
+ */
 function join(next) {
   try {
     this.populate('userRoles');
@@ -124,7 +129,7 @@ userSchema.methods.generateToken = function() {
     id: this._id,
     capabilities: capabilities[this.role],
     username: this.username,
-    type: 'admin',
+    type: 'user',
   };
 
   return jwt.sign(token, SECRET, { expiresIn: '15m' });
