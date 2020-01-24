@@ -7,7 +7,6 @@ const User = require('./users-model.js');
 const auth = require('./middleware.js');
 const oauth = require('./oauth/github.js');
 const bearerAuth = require('./bearer-auth-middleware');
-const acl = require('./acl-middleware');
 
 authRouter.post('/signup', (req, res, next) => {
   let user = new User(req.body);
