@@ -8,6 +8,7 @@ const auth = require('./middleware.js');
 const oauth = require('./oauth/github.js');
 const bearerAuth = require('./bearer-auth-middleware');
 
+
 authRouter.get('/users', (req, res, next) => {
   User.find({})
     .then(data => {

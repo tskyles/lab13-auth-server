@@ -17,15 +17,25 @@ const userSchema = new mongoose.Schema({
 
 userSchema.virtual('userRoles', {
   ref: 'roles',
-  localField: 'username',
-  foreignField: 'role',
+  localField: 'role',
+  foreignField: 'type',
   justOne: true,
 });
 
-userSchema.pre('save', async function() {
+userSchema.pre('save', async function(next) {
   if (this.isModified('password'))
   {
     this.password = await bcrypt.hash(this.password, 10);
+  }
+  next();
+});
+
+userSchema.pre('find', function() {
+  try {
+    console.log('joining')
+    this.populate('userRoles');
+  } catch (error) {
+    console.error(error);
   }
 });
 
@@ -84,7 +94,7 @@ userSchema.methods.generateToken = function() {
 
   let token = {
     id: this._id,
-    capabilities: 'admin',
+    capabilities: capabilities[this.role],
     username: this.username,
     type: 'admin',
   };
