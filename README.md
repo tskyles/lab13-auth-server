@@ -6,11 +6,11 @@
 
 ### Links and Resources
 * [submission PR](https://github.com/trevorthompson-401-advanced-javascript/lab13-auth-server/pull/1)
-* [travis](http://xyz.com)
-* [back-end](http://xyz.com) (when applicable)
+* [travis](https://travis-ci.com/trevorthompson-401-advanced-javascript/lab13-auth-server)
+* [back-end](https://gentle-beyond-48375.herokuapp.com/)
 
 #### Documentation
-* [api docs](http://xyz.com/api-docs) (API servers)
+* [api docs](https://gentle-beyond-48375.herokuapp.com/api-docs) (API servers)
 
 ### Setup
 #### `.env` requirements (where applicable)
