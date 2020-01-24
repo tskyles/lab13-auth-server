@@ -68,14 +68,10 @@ userSchema.statics.authenticateToken = function(token) {
     let parsedTokenObject = jwt.verify(token, SECRET);
   
     persistTokens.add(token);
-    console.log(parsedTokenObject)
     
     let query = {_id:parsedTokenObject.id};
 
-    console.log(query)
-
     return this.findOne(query)
-      .then(user => console.log(user))
   }
   catch (error) {
     return Promise.reject();
@@ -86,7 +82,8 @@ userSchema.methods.generateToken = function() {
 
   let token = {
     id: this._id,
-    role: this.role,
+    capabilites: roles[this.role],
+    username: this.username,
   };
 
   return jwt.sign(token, SECRET, { expiresIn: '15m' });

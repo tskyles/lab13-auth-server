@@ -26,6 +26,7 @@ authRouter.post('/signin', auth, (req, res, next) => {
 });
 
 authRouter.get('/user', bearerAuth, (req, res) => {
+  console.log(req.user)
   res.json(req.user);
 });
 
