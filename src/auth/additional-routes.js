@@ -19,7 +19,7 @@ router.get('/create', bearAuth, acl('create'), (req, res, next) => {
   res.send('OK');
 });
 
-router.put('/update', bearAuth, acl('update'), (req, res, next) => {
+router.post('/update', bearAuth, acl('update'), (req, res, next) => {
   res.send('OK');
 }); 
 

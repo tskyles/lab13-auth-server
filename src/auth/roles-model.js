@@ -10,7 +10,7 @@ const capabilities = {
 
 const rolesSchema = new mongoose.Schema({
   role: {type: String, required: true},
-  capabilities: {type: Array, required: true}
+  capabilities: {type: Array, required: true},
 });
 
 module.exports = mongoose.model('roles', rolesSchema);

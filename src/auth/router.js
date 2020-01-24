@@ -8,6 +8,17 @@ const auth = require('./middleware.js');
 const oauth = require('./oauth/github.js');
 const bearerAuth = require('./bearer-auth-middleware');
 
+authRouter.get('/users', (req, res, next) => {
+  User.find({})
+    .then(data => {
+      const output = {
+        count: data.length,
+        results: data,
+      };
+      res.json(output);
+    });
+});
+
 authRouter.post('/signup', (req, res, next) => {
   let user = new User(req.body);
   user.save()
