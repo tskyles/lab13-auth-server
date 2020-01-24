@@ -39,16 +39,17 @@ userSchema.pre('save', async function(next) {
   next();
 });
 
-/** 
- * @description Populates virtual column before query
- */
-userSchema.pre('find', function() {
+userSchema.pre('save', join);
+userSchema.pre('find', join);
+
+function join(next) {
   try {
     this.populate('userRoles');
   } catch (error) {
     console.error(error);
   }
-});
+  next();
+}
 
 /**
  * @description Saves OAuth user in database
@@ -107,7 +108,7 @@ userSchema.statics.authenticateToken = function(token) {
     
     let query = {_id:parsedTokenObject.id};
 
-    return this.findOne(query);
+    return this.find(query);
   }
   catch (error) {
     return Promise.reject();
