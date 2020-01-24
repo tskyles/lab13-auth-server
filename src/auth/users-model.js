@@ -108,6 +108,7 @@ userSchema.statics.authenticateToken = function(token) {
     }
 
     let parsedTokenObject = jwt.verify(token, SECRET);
+
   
     persistTokens.add(token);
     

@@ -2,6 +2,8 @@
 
 const Users = require('../../../src/auth/users-model');
 
+process.env.SECRET='yourpasswordisplaintext';
+
 describe('JWT Token', () => {
   let token;
 

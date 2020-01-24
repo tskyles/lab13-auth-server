@@ -51,7 +51,6 @@ describe('Auth Router', () => {
   it('/users returns all users', () => {
     return mockRequest.get('/users')
       .then(data => {
-        console.log(data.body)
         expect(data.body.count).toEqual(3);
       });
   });
@@ -64,22 +63,3 @@ describe('Auth Router', () => {
       });
   });
 });
-
-
-// describe('Additional Routes', () => {
-
-//   let id;
-
-//   it('User has read capabilities', () => {
-//     return mockRequest.post('/signup')
-//       .send(users['admin'])
-//       .then(results => {
-//         console.log(results.text)
-//         var token = jwt.verify(results.text, process.env.SECRET);
-//         id = token.id;
-//       });
-
-//   });
-
-  
-// });
